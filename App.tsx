@@ -12,6 +12,7 @@ import Contact from './components/Contact';
 import TechStack from './components/TechStack';
 import Certificates from './components/Certificates';
 import SplashCursor from './components/ui/SplashCursor';
+import SnowEffect from './components/SnowEffect';
 
 declare global {
   interface Window {
@@ -97,6 +98,8 @@ const App: React.FC = () => {
         <Certificates />
         <Contact />
       </main>
+
+      <SnowEffect />
     </div>
   );
 };
