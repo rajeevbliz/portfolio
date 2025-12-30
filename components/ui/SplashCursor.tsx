@@ -660,7 +660,7 @@ export default function SplashCursor({
 
     function generateColor() {
       let c = HSVtoRGB(Math.random(), 1.0, 1.0);
-      // Reduced multiplier from 10.0 to 5.0 to dim the splash colors
+      // Increased the multiplier back to 5.0 to make splash colors brighter
       c.r *= 5.0; c.g *= 5.0; c.b *= 5.0;
       return c;
     }
@@ -768,7 +768,7 @@ export default function SplashCursor({
       gl.uniform1i(advectionProgram.uniforms.uVelocity, velocity.read.attach(0));
       gl.uniform1i(advectionProgram.uniforms.uSource, dye.read.attach(1));
       gl.uniform1f(advectionProgram.uniforms.dissipation, config.DENSITY_DISSIPATION);
-      blit(dye.write); dye.swap();
+      blit(dye.swap); dye.swap();
     }
 
     function render(target: any) {

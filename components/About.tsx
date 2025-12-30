@@ -51,11 +51,11 @@ const About: React.FC = () => {
                 Hi, I am <br/> Rajeev.
               </h2>
               
-              <div className="text-3xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-gray-800 dark:text-gray-200">
-                I make 
-                <span className="font-serif italic text-black dark:text-white font-medium ml-3 mr-1">Apps</span> 
+              <div className="text-3xl md:text-4xl lg:text-6xl font-light leading-tight tracking-tight text-gray-800 dark:text-gray-200">
+                Expert in making 
+                <span className="font-serif italic text-black dark:text-white font-medium block md:inline md:ml-3 md:mr-1">Landing Pages</span> 
                 and 
-                <span className="font-serif italic text-black dark:text-white font-medium ml-3">Websites</span>.
+                <span className="font-serif italic text-black dark:text-white font-medium block md:inline md:ml-3">Web Apps</span>.
               </div>
             </motion.div>
           </div>

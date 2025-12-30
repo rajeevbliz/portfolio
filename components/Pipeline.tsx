@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FlaskConical, GitBranch, Zap, BrainCircuit, Building2 } from 'lucide-react';
+import { FlaskConical, GitBranch, Zap, BrainCircuit, Building2, Palette } from 'lucide-react';
 
 const pipelineItems = [
   {
@@ -22,10 +23,10 @@ const pipelineItems = [
     icon: <GitBranch className="w-6 h-6" />
   },
   {
-    title: "Zenith",
-    tag: "Lifestyle",
-    description: "Minimalist habit tracker focusing on dopamine management.",
-    icon: <Zap className="w-6 h-6" />
+    title: "Aura UI",
+    tag: "Design Tools",
+    description: "A generative UI library that creates accessible components based on natural language descriptions.",
+    icon: <Palette className="w-6 h-6" />
   }
 ];
 

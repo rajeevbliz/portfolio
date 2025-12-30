@@ -1,16 +1,28 @@
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ArrowUpRight, Download, Smartphone, LucideIcon } from 'lucide-react';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useSpring } from 'framer-motion';
+import { ArrowUpRight, Smartphone, Globe, MoveRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Project } from '../types';
 import ParticleOrbitEffect from './ui/ParticleOrbitEffect';
 
 const projects: Project[] = [
   {
+    id: 5,
+    title: "Zenith",
+    category: "Lifestyle • Habit Tracker",
+    description: "A minimalist habit tracker designed for dopamine management, helping users build long-term discipline through structured routine.",
+    imageUrl: "https://i.postimg.cc/SRdGFjH9/Black-White-Minimalist-Initials-Logo.png", 
+    multiLinks: [
+      { label: "Visit in Web", url: "https://zenithflow.netlify.app/", type: 'web' },
+      { label: "Download App", url: "#", type: 'mobile' }
+    ],
+    comingSoon: false
+  },
+  {
     id: 1,
     title: "Bliz X Fitness",
     category: "Mobile App • Health",
-    description: "A comprehensive fitness tracking application accessible to everyone. Designed to democratize personal health data. Update coming soon.",
+    description: "A comprehensive fitness tracking application accessible to everyone. Designed to democratize personal health data.",
     imageUrl: "https://i.postimg.cc/DwnTKy6p/11zon-resized.png", 
     link: "https://drive.google.com/file/d/1IV2aD8bLHHP2G-MsWQpw8NgEEKFREi7e/view?usp=drive_link",
     comingSoon: false
@@ -44,53 +56,46 @@ const projects: Project[] = [
 
 interface ProjectCardContentProps {
   project: Project;
-  actionLabel: string;
-  ActionIcon: LucideIcon;
 }
 
-const ProjectCardContent: React.FC<ProjectCardContentProps> = ({ project, actionLabel, ActionIcon }) => {
+const ProjectCardContent: React.FC<ProjectCardContentProps> = ({ project }) => {
   const categories = project.category.split('•').map(c => c.trim());
-  const isGlowProject = project.id === 1 || project.id === 4;
+  const isGlowProject = project.id === 1 || project.id === 4 || project.id === 5;
   
-  // Project-specific glow colors
   const glowStyle = project.id === 1 
     ? { "--glow-start": "#00b7ff", "--glow-end": "#ff30ff" } as React.CSSProperties
     : project.id === 4 
     ? { "--glow-start": "#f97316", "--glow-end": "#fbbf24" } as React.CSSProperties
+    : project.id === 5
+    ? { "--glow-start": "#8b5cf6", "--glow-end": "#3b82f6" } as React.CSSProperties
     : {};
 
   return (
-    <>
+    <div className="w-[85vw] md:w-[45vw] flex-shrink-0 snap-center">
       <div className="relative group perspective-1000 mb-8">
-          {/* Background Halo Animation for each card */}
           <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
              <ParticleOrbitEffect 
-                particleCount={25}
-                radius={100}
-                intensity={1.2}
+                particleCount={20}
+                radius={80}
+                intensity={1.1}
                 followMouse={true}
                 particleSize={1}
              />
           </div>
 
           <div className="relative w-full aspect-video p-3 z-10">
-              {/* Animated Frames matching Hero */}
-              <div className="absolute inset-0 border-[1px] border-black/10 dark:border-white/10 rounded-2xl transform rotate-2 group-hover:rotate-4 transition-transform duration-700" />
-              <div className="absolute inset-0 border-[1px] border-black/10 dark:border-white/10 rounded-2xl transform -rotate-2 group-hover:-rotate-4 transition-transform duration-700" />
+              <div className="absolute inset-0 border-[1px] border-black/10 dark:border-white/10 rounded-2xl transform rotate-1 group-hover:rotate-3 transition-transform duration-700" />
+              <div className="absolute inset-0 border-[1px] border-black/10 dark:border-white/10 rounded-2xl transform -rotate-1 group-hover:-rotate-3 transition-transform duration-700" />
               
               <div 
                 className={`relative w-full h-full overflow-hidden rounded-xl transition-all duration-500 group-hover:shadow-2xl ${isGlowProject ? 'glow-card shadow-lg p-1' : 'bg-gray-100 dark:bg-zinc-900 border border-black/10 dark:border-white/10'}`}
                 style={glowStyle}
               >
-                {/* The actual image container needs to be relative to the glow-card frame */}
-                <div className="relative w-full h-full overflow-hidden rounded-lg z-10">
+                <div className="relative w-full h-full overflow-hidden rounded-lg z-10 bg-white dark:bg-zinc-900 flex items-center justify-center">
                   <img 
                     src={project.imageUrl} 
                     alt={project.title} 
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = `https://placehold.co/800x600/f5f5f5/a3a3a3?text=${encodeURIComponent(project.title)}`;
-                    }}
                   />
                   
                   {project.comingSoon && (
@@ -99,14 +104,13 @@ const ProjectCardContent: React.FC<ProjectCardContentProps> = ({ project, action
                     </div>
                   )}
                   
-                  {!project.comingSoon && (
+                  {!project.comingSoon && project.link && (
                     <div className="absolute bottom-4 right-4 w-12 h-12 bg-matteBlack dark:bg-white text-white dark:text-matteBlack rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-3 group-hover:translate-y-0 z-30 shadow-xl">
-                      <ActionIcon className="w-5 h-5" />
+                      {project.category.includes('Mobile') ? <Smartphone className="w-5 h-5" /> : <ArrowUpRight className="w-5 h-5" />}
                     </div>
                   )}
 
-                  {/* Inner Glass Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-white/10 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-white/5 pointer-events-none" />
                 </div>
               </div>
           </div>
@@ -114,10 +118,10 @@ const ProjectCardContent: React.FC<ProjectCardContentProps> = ({ project, action
       
       <div className="flex flex-col gap-2 px-2">
         <div className="flex justify-between items-start">
-          <h3 className="text-xl font-bold text-matteBlack dark:text-white group-hover:underline decoration-2 underline-offset-4 transition-all">{project.title}</h3>
-          {!project.comingSoon && (
+          <h3 className="text-xl md:text-2xl font-bold text-matteBlack dark:text-white group-hover:underline decoration-2 underline-offset-4 transition-all">{project.title}</h3>
+          {!project.comingSoon && !project.multiLinks && (
             <span className="text-[10px] border border-black/20 dark:border-white/20 px-2 py-0.5 rounded text-gray-600 dark:text-gray-400 uppercase font-black">
-              {actionLabel}
+               {project.link?.endsWith('.apk') ? 'Download' : 'Visit'}
             </span>
           )}
         </div>
@@ -129,93 +133,159 @@ const ProjectCardContent: React.FC<ProjectCardContentProps> = ({ project, action
             </span>
           ))}
         </div>
-        <p className="mt-2 text-gray-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-2 font-medium">
+        
+        <p className="mt-2 text-gray-600 dark:text-gray-400 text-sm md:text-base leading-relaxed font-medium">
           {project.description}
         </p>
+
+        {!project.comingSoon && project.multiLinks && (
+          <div className="mt-6 flex flex-wrap gap-4">
+             {project.multiLinks.map((ml, i) => (
+               <a 
+                 key={i} 
+                 href={ml.url} 
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 className="flex-1 flex items-center justify-center gap-2 border border-black/10 dark:border-white/10 bg-white/50 dark:bg-white/5 px-4 py-3 rounded-xl text-sm font-bold text-matteBlack dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300"
+                 onClick={(e) => e.stopPropagation()}
+               >
+                  {ml.type === 'web' || ml.type === 'desktop' ? <Globe className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
+                  {ml.label}
+               </a>
+             ))}
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 
 const Projects: React.FC = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      const progress = (scrollLeft / (scrollWidth - clientWidth)) * 100;
+      setScrollProgress(progress);
+    }
+  };
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const { clientWidth } = scrollRef.current;
+      const scrollAmount = direction === 'left' ? -clientWidth * 0.5 : clientWidth * 0.5;
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el) {
+      el.addEventListener('scroll', handleScroll);
+      return () => el.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
+
   return (
-    <section id="work" className="py-24 px-6 md:px-12 bg-transparent">
+    <section id="work" className="py-24 px-6 md:px-12 bg-transparent overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-20">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12">
           <motion.h2 
              initial={{ opacity: 0, x: -20 }}
              whileInView={{ opacity: 1, x: 0 }}
              viewport={{ once: true }}
-             className="text-4xl md:text-7xl font-black tracking-tighter text-matteBlack dark:text-white"
+             className="text-5xl md:text-8xl font-black tracking-tighter text-matteBlack dark:text-white"
           >
             Work
           </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-gray-500 dark:text-gray-400 mt-4 md:mt-0 max-w-sm md:text-right text-sm font-bold uppercase tracking-widest"
-          >
-            Engineering solutions with precision.
-          </motion.p>
+          
+          <div className="flex flex-col items-start md:items-end gap-6 mt-6 md:mt-0">
+            <div className="flex gap-4">
+              <button 
+                onClick={() => scroll('left')}
+                className="w-12 h-12 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300"
+                aria-label="Previous Project"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              <button 
+                onClick={() => scroll('right')}
+                className="w-12 h-12 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300"
+                aria-label="Next Project"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            </div>
+            
+            <div className="flex flex-col items-start md:items-end gap-2">
+              <p className="text-gray-500 dark:text-gray-400 max-w-sm text-sm font-bold uppercase tracking-widest">
+                Engineering solutions with precision.
+              </p>
+              <div className="flex items-center gap-2 text-blue-500 font-bold text-xs uppercase tracking-tighter animate-pulse">
+                  <span>Swipe or scroll</span>
+                  <MoveRight className="w-3 h-3" />
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
-          {projects.map((project, index) => {
-            const isLocalApk = project.link?.endsWith('.apk');
-            const isDriveLink = project.link?.includes('drive.google.com');
-            const isApk = isLocalApk || (isDriveLink && project.category.includes('Mobile App'));
-            const isApp = project.category.includes('Mobile App');
-            const fileName = isLocalApk ? project.link?.split('/').pop() : undefined;
+        {/* Carousel Container */}
+        <div className="relative">
+          <div 
+            ref={scrollRef}
+            className="flex gap-8 overflow-x-auto pb-12 snap-x snap-mandatory hide-scrollbar cursor-grab active:cursor-grabbing"
+            style={{ 
+              scrollbarWidth: 'none', 
+              msOverflowStyle: 'none',
+              WebkitOverflowScrolling: 'touch'
+            }}
+          >
+            {/* Added left padding spacer */}
+            <div className="flex-shrink-0 w-2 md:w-1" aria-hidden="true" />
             
-            let actionLabel = 'Visit Site';
-            let ActionIcon = ArrowUpRight;
-
-            if (isApk) {
-              actionLabel = 'Download';
-              ActionIcon = Download;
-            } else if (isApp) {
-              actionLabel = 'Open App';
-              ActionIcon = Smartphone;
-            } else if (project.category.includes('GPT')) {
-              actionLabel = 'Try GPT';
-            }
-            
-            return (
+            {projects.map((project, index) => (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                className="group relative"
               >
-                {!project.comingSoon && project.link ? (
+                {project.link ? (
                   <a 
                     href={project.link} 
-                    target={isLocalApk ? "_self" : "_blank"} 
+                    target="_blank" 
                     rel="noopener noreferrer" 
-                    className="block h-full cursor-pointer"
-                    download={isLocalApk ? fileName : undefined}
+                    className="block h-full"
                   >
-                    <ProjectCardContent 
-                      project={project} 
-                      actionLabel={actionLabel} 
-                      ActionIcon={ActionIcon} 
-                    />
+                    <ProjectCardContent project={project} />
                   </a>
                 ) : (
-                  <div className="block h-full">
-                    <ProjectCardContent 
-                      project={project} 
-                      actionLabel={actionLabel} 
-                      ActionIcon={ActionIcon} 
-                    />
+                  <div className={`block h-full ${project.comingSoon ? 'grayscale opacity-70' : ''}`}>
+                    <ProjectCardContent project={project} />
                   </div>
                 )}
               </motion.div>
-            );
-          })}
+            ))}
+            
+            {/* Added right padding spacer */}
+            <div className="flex-shrink-0 w-8 md:w-32" aria-hidden="true" />
+          </div>
+
+          {/* Progress Bar */}
+          <div className="w-full h-1 bg-black/5 dark:bg-white/5 rounded-full overflow-hidden mt-4">
+             <motion.div 
+                className="h-full bg-blue-500 rounded-full"
+                style={{ width: `${scrollProgress}%` }}
+                transition={{ type: "spring", stiffness: 100, damping: 20 }}
+             />
+          </div>
+          
+          <style dangerouslySetInnerHTML={{ __html: `
+            .hide-scrollbar::-webkit-scrollbar { display: none; }
+          `}} />
         </div>
       </div>
     </section>

@@ -1,3 +1,4 @@
+
 export interface Project {
   id: number;
   title: string;
@@ -5,6 +6,11 @@ export interface Project {
   description: string;
   imageUrl: string;
   link?: string;
+  multiLinks?: {
+    label: string;
+    url: string;
+    type: 'desktop' | 'mobile' | 'web';
+  }[];
   comingSoon?: boolean;
 }
 

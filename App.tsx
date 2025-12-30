@@ -11,8 +11,8 @@ import About from './components/About';
 import Contact from './components/Contact';
 import TechStack from './components/TechStack';
 import Certificates from './components/Certificates';
-import SplashCursor from './components/ui/SplashCursor';
 import SnowEffect from './components/SnowEffect';
+import BackToTop from './components/BackToTop';
 
 declare global {
   interface Window {
@@ -79,13 +79,6 @@ const App: React.FC = () => {
           </motion.div>
         ) : null}
       </AnimatePresence>
-
-      <SplashCursor 
-        COLOR_UPDATE_SPEED={15} 
-        SPLAT_RADIUS={0.35} 
-        CURL={3.5}
-        DENSITY_DISSIPATION={3.0}
-      />
       
       <Navigation />
       <main className="relative z-10">
@@ -99,6 +92,7 @@ const App: React.FC = () => {
         <Contact />
       </main>
 
+      <BackToTop />
       <SnowEffect />
     </div>
   );
