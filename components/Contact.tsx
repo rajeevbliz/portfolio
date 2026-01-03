@@ -64,7 +64,7 @@ const Contact: React.FC = () => {
           Have a project in mind or want to discuss AI, design, or the future of tech? I'm always open to new opportunities.
         </p>
         
-        <div className="form-container mx-auto mb-16 w-full max-w-lg">
+        <div className="form-container mx-auto mb-16 w-full max-w-lg relative">
           {formState === 'success' ? (
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
@@ -84,7 +84,10 @@ const Contact: React.FC = () => {
             <form className="form text-left" onSubmit={handleSubmit} action="https://formspree.io/f/mkgdzyeo" method="POST" noValidate>
               <div className="form-group">
                 <label htmlFor="email">Email</label>
-                <input 
+                <motion.input 
+                  whileHover={{ scale: 1.015, borderColor: 'rgba(0,0,0,0.3)' }}
+                  transition={{ duration: 0.2 }}
+                  className="dark:hover:border-white/30"
                   required 
                   name="email" 
                   id="email" 
@@ -99,22 +102,27 @@ const Contact: React.FC = () => {
               </div>
               <div className="form-group">
                 <label htmlFor="message">How Can I Help You?</label>
-                <textarea 
+                <motion.textarea 
+                  whileHover={{ scale: 1.015, borderColor: 'rgba(0,0,0,0.3)' }}
+                  transition={{ duration: 0.2 }}
+                  className="dark:hover:border-white/30"
                   required 
                   cols={50} 
                   rows={6} 
                   id="message" 
                   name="message" 
                   placeholder="Tell me about your project..."
-                ></textarea>
+                ></motion.textarea>
               </div>
-              <button 
+              <motion.button 
+                whileHover={{ scale: 1.02, opacity: 0.95 }}
+                whileTap={{ scale: 0.98 }}
                 type="submit" 
                 disabled={formState === 'submitting'}
                 className="form-submit-btn w-full"
               >
                 {formState === 'submitting' ? 'Sending...' : 'Submit'}
-              </button>
+              </motion.button>
             </form>
           )}
         </div>

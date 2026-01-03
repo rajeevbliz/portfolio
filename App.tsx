@@ -13,6 +13,7 @@ import TechStack from './components/TechStack';
 import Certificates from './components/Certificates';
 import SnowEffect from './components/SnowEffect';
 import BackToTop from './components/BackToTop';
+import GitHubSection from './components/GitHubSection';
 
 declare global {
   interface Window {
@@ -88,6 +89,7 @@ const App: React.FC = () => {
         <Projects />
         <Pipeline />
         <Services />
+        <GitHubSection />
         <Certificates />
         <Contact />
       </main>
