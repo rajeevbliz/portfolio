@@ -19,3 +19,11 @@ export interface Service {
   description: string;
   items: string[];
 }
+
+export interface Testimonial {
+  id: number;
+  content: string;
+  author: string;
+  role: string;
+  avatar?: string;
+}

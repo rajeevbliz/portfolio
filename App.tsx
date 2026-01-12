@@ -14,6 +14,7 @@ import Certificates from './components/Certificates';
 import SnowEffect from './components/SnowEffect';
 import BackToTop from './components/BackToTop';
 import GitHubSection from './components/GitHubSection';
+import Testimonials from './components/Testimonials';
 
 declare global {
   interface Window {
@@ -89,6 +90,7 @@ const App: React.FC = () => {
         <Projects />
         <Pipeline />
         <Services />
+        <Testimonials />
         <GitHubSection />
         <Certificates />
         <Contact />
