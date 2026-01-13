@@ -1,7 +1,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
-import { ArrowUpRight, Smartphone, Globe, MoveRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
+import { ArrowUpRight, Smartphone, Globe, MoveRight, ChevronLeft, ChevronRight, X, AlertCircle, ExternalLink } from 'lucide-react';
 import { Project } from '../types';
 import ParticleOrbitEffect from './ui/ParticleOrbitEffect';
 
@@ -56,9 +56,10 @@ const projects: Project[] = [
 
 interface ProjectCardContentProps {
   project: Project;
+  onDevClick: () => void;
 }
 
-const ProjectCardContent: React.FC<ProjectCardContentProps> = ({ project }) => {
+const ProjectCardContent: React.FC<ProjectCardContentProps> = ({ project, onDevClick }) => {
   const categories = project.category.split('•').map(c => c.trim());
   const isGlowProject = project.id === 1 || project.id === 4 || project.id === 5;
   
@@ -140,19 +141,28 @@ const ProjectCardContent: React.FC<ProjectCardContentProps> = ({ project }) => {
 
         {!project.comingSoon && project.multiLinks && (
           <div className="mt-6 flex flex-wrap gap-4">
-             {project.multiLinks.map((ml, i) => (
-               <a 
-                 key={i} 
-                 href={ml.url} 
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 className="flex-1 flex items-center justify-center gap-2 border border-black/10 dark:border-white/10 bg-white/50 dark:bg-white/5 px-4 py-3 rounded-xl text-sm font-bold text-matteBlack dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300"
-                 onClick={(e) => e.stopPropagation()}
-               >
-                  {ml.type === 'web' || ml.type === 'desktop' ? <Globe className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                  {ml.label}
-               </a>
-             ))}
+             {project.multiLinks.map((ml, i) => {
+               const isDevLink = ml.label === "Download App" && project.title === "Zenith";
+               return (
+                 <a 
+                   key={i} 
+                   href={isDevLink ? "#" : ml.url} 
+                   target={isDevLink ? "_self" : "_blank"}
+                   rel="noopener noreferrer"
+                   className="flex-1 flex items-center justify-center gap-2 border border-black/10 dark:border-white/10 bg-white/50 dark:bg-white/5 px-4 py-3 rounded-xl text-sm font-bold text-matteBlack dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300"
+                   onClick={(e) => {
+                     e.stopPropagation();
+                     if (isDevLink) {
+                       e.preventDefault();
+                       onDevClick();
+                     }
+                   }}
+                 >
+                    {ml.type === 'web' || ml.type === 'desktop' ? <Globe className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
+                    {ml.label}
+                 </a>
+               );
+             })}
           </div>
         )}
       </div>
@@ -163,6 +173,7 @@ const ProjectCardContent: React.FC<ProjectCardContentProps> = ({ project }) => {
 const Projects: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [showDevModal, setShowDevModal] = useState(false);
 
   const handleScroll = () => {
     if (scrollRef.current) {
@@ -220,7 +231,7 @@ const Projects: React.FC = () => {
             </div>
             
             <div className="flex flex-col items-start md:items-end gap-2">
-              <p className="text-gray-500 dark:text-gray-400 max-w-sm text-sm font-bold uppercase tracking-widest">
+              <p className="text-gray-500 dark:text-gray-400 max-sm text-sm font-bold uppercase tracking-widest">
                 Engineering solutions with precision.
               </p>
               <div className="flex items-center gap-2 text-blue-500 font-bold text-xs uppercase tracking-tighter animate-pulse">
@@ -260,11 +271,11 @@ const Projects: React.FC = () => {
                     rel="noopener noreferrer" 
                     className="block h-full"
                   >
-                    <ProjectCardContent project={project} />
+                    <ProjectCardContent project={project} onDevClick={() => setShowDevModal(true)} />
                   </a>
                 ) : (
                   <div className={`block h-full ${project.comingSoon ? 'grayscale opacity-70' : ''}`}>
-                    <ProjectCardContent project={project} />
+                    <ProjectCardContent project={project} onDevClick={() => setShowDevModal(true)} />
                   </div>
                 )}
               </motion.div>
@@ -288,6 +299,71 @@ const Projects: React.FC = () => {
           `}} />
         </div>
       </div>
+
+      {/* Under Development Modal */}
+      <AnimatePresence>
+        {showDevModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowDevModal(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-md bg-white dark:bg-zinc-900 rounded-[2.5rem] p-10 shadow-2xl border border-black/5 dark:border-white/5 overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-[40px] rounded-full -translate-y-16 translate-x-16" />
+              
+              <button 
+                onClick={() => setShowDevModal(false)}
+                className="absolute top-6 right-6 p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 text-gray-400 dark:text-gray-500 transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              <div className="flex flex-col items-center text-center">
+                <div className="w-20 h-20 rounded-3xl bg-blue-500/10 flex items-center justify-center mb-8">
+                  <AlertCircle className="w-10 h-10 text-blue-500" />
+                </div>
+                
+                <h3 className="text-3xl font-black tracking-tighter text-matteBlack dark:text-white mb-4">
+                  UNDER DEVELOPMENT
+                </h3>
+                
+                <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
+                  The Zenith mobile application is currently being refined for the ultimate experience. 
+                  <span className="block mt-4 font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest text-[11px]">
+                    Good news: You can already use the web version!
+                  </span>
+                </p>
+
+                <div className="flex flex-col gap-3 w-full">
+                  <a 
+                    href="https://zenithflow.netlify.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-4 bg-blue-500 text-white rounded-2xl font-bold uppercase tracking-[0.2em] text-xs hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
+                  >
+                    Visit Web App
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                  <button
+                    onClick={() => setShowDevModal(false)}
+                    className="w-full py-4 bg-matteBlack dark:bg-white text-white dark:text-matteBlack rounded-2xl font-bold uppercase tracking-[0.2em] text-xs hover:opacity-90 transition-opacity"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

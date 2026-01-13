@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, useInView, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
+import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
 
 const Counter = ({ value, label, suffix = "+" }: { value: number; label: string, suffix?: string }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -34,17 +34,6 @@ const Counter = ({ value, label, suffix = "+" }: { value: number; label: string,
 };
 
 const About: React.FC = () => {
-  const words = ["Rajeev", "Vibe Coder", "Full Stack Developer", "AI Generalist", "Prompt Engineer"];
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    // Set interval to 2000ms (2 seconds) as requested
-    const timer = setInterval(() => {
-      setIndex((prevIndex) => (prevIndex + 1) % words.length);
-    }, 2000);
-    return () => clearInterval(timer);
-  }, [words.length]);
-
   return (
     <section id="about" className="py-24 md:py-32 px-6 md:px-12 bg-transparent text-matteBlack dark:text-white relative overflow-hidden">
       <div className="max-w-6xl mx-auto">
@@ -60,23 +49,7 @@ const About: React.FC = () => {
             >
               <div className="text-6xl md:text-8xl lg:text-9xl font-serif italic text-matteBlack dark:text-white mb-8 tracking-tight leading-[0.9]">
                 Hi, I am <br/> 
-                <div className="relative inline-block h-[1.1em] overflow-hidden align-bottom min-w-[300px]">
-                  <AnimatePresence mode="wait">
-                    <motion.span
-                      key={words[index]}
-                      initial={{ y: 60, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      exit={{ y: -60, opacity: 0 }}
-                      transition={{ 
-                        duration: 0.6, 
-                        ease: [0.16, 1, 0.3, 1] 
-                      }}
-                      className="inline-block whitespace-nowrap"
-                    >
-                      {words[index]}.
-                    </motion.span>
-                  </AnimatePresence>
-                </div>
+                <span className="text-matteBlack dark:text-white">Rajeev.</span>
               </div>
               
               <div className="text-3xl md:text-4xl lg:text-6xl font-light leading-tight tracking-tight text-gray-800 dark:text-gray-200">

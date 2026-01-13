@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink, Code2, GitPullRequest, Star, FolderGit2 } from 'lucide-react';
+import ParticleOrbitEffect from './ui/ParticleOrbitEffect';
 
 const repositories = [
   {
@@ -41,8 +42,20 @@ const repositories = [
 const GitHubSection: React.FC = () => {
   return (
     <section id="github" className="py-24 px-6 md:px-12 bg-white dark:bg-[#050505] border-t border-black/5 dark:border-white/5 relative overflow-hidden transition-colors duration-500">
+      {/* Background Effects */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-50 dark:opacity-30">
+        <ParticleOrbitEffect 
+          particleCount={40}
+          radius={150}
+          intensity={0.8}
+          followMouse={true}
+          particleSize={1.5}
+          colorRange={[140, 220]} // Teals to Blues
+        />
+      </div>
+      
       {/* Background Decorative Grid */}
-      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#888 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none z-0" style={{ backgroundImage: 'radial-gradient(#888 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
       
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start mb-24">
@@ -153,7 +166,7 @@ const GitHubSection: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* New Repositories List Section */}
+        {/* Repositories List Section */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -180,7 +193,7 @@ const GitHubSection: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group relative p-8 rounded-3xl bg-neutral-50 dark:bg-neutral-900/50 border border-black/5 dark:border-white/5 hover:border-blue-500/30 dark:hover:border-blue-500/30 transition-all duration-300"
+                className="group relative p-8 rounded-3xl bg-neutral-50 dark:bg-neutral-900/50 border border-black/5 dark:border-white/5 hover:border-blue-500/30 dark:hover:border-blue-500/30 transition-all duration-300 backdrop-blur-sm"
               >
                 <div className="flex justify-between items-start mb-6">
                   <div className="p-3 bg-blue-500/10 dark:bg-blue-500/20 rounded-2xl text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">
