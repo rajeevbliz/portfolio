@@ -15,6 +15,7 @@ import SnowEffect from './components/SnowEffect';
 import BackToTop from './components/BackToTop';
 import GitHubSection from './components/GitHubSection';
 import Testimonials from './components/Testimonials';
+import Subscription from './components/Subscription';
 
 declare global {
   interface Window {
@@ -93,6 +94,7 @@ const App: React.FC = () => {
         <Testimonials />
         <GitHubSection />
         <Certificates />
+        <Subscription />
         <Contact />
       </main>
 

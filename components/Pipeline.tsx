@@ -34,7 +34,13 @@ const Pipeline: React.FC = () => {
   return (
     <section className="py-24 px-6 md:px-12 bg-gray-50 dark:bg-neutral-900/50 border-t border-black/5 dark:border-white/5 transition-colors duration-500">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-4 mb-12">
+        <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="flex items-center gap-4 mb-12"
+        >
             <div className="p-3 bg-black/5 dark:bg-white/5 rounded-full">
                 <FlaskConical className="w-6 h-6 text-matteBlack dark:text-white" />
             </div>
@@ -42,7 +48,7 @@ const Pipeline: React.FC = () => {
                 <h2 className="text-2xl font-bold tracking-tight text-matteBlack dark:text-white">In The Pipeline</h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Experiments, concepts, and products in active development.</p>
             </div>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {pipelineItems.map((item, index) => (

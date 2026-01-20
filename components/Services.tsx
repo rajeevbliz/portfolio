@@ -18,9 +18,10 @@ const Services: React.FC = () => {
     <section id="services" className="py-32 px-6 md:px-12 bg-transparent border-t border-black/5 dark:border-white/5">
       <div className="max-w-5xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center mb-16"
         >
            <h2 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-4">

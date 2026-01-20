@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -9,10 +10,10 @@ const Philosophy: React.FC = () => {
           
           <div className="md:col-span-4">
             <motion.h2 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
               className="text-4xl md:text-6xl font-serif italic text-matteBlack dark:text-white"
             >
               My Design <br/> Philosophy

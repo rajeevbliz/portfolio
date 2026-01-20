@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowDown, MessageCircle } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 import ParticleOrbitEffect from './ui/ParticleOrbitEffect';
 
 const titles = [
@@ -88,7 +88,7 @@ const Hero: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
-                className="pl-1 pt-4 flex flex-wrap gap-4 items-center"
+                className="pl-1 pt-4"
             >
                 <a 
                     href="#work"
@@ -107,17 +107,6 @@ const Hero: React.FC = () => {
 
                     <span className="relative z-10">View My Work</span>
                 </a>
-
-                <motion.a
-                  href="#contact"
-                  onClick={handleScrollTo('#contact')}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 px-6 py-4 rounded-full border border-black/10 dark:border-white/10 text-xs font-bold uppercase tracking-widest text-matteBlack dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  Get In Touch
-                </motion.a>
             </motion.div>
         </div>
 

@@ -40,9 +40,10 @@ const Certificates: React.FC = () => {
     <section id="certificates" className="py-24 px-6 md:px-12 bg-transparent border-t border-black/5 dark:border-white/5 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <motion.div 
-           initial={{ opacity: 0, y: 20 }}
+           initial={{ opacity: 0, y: 30 }}
            whileInView={{ opacity: 1, y: 0 }}
            viewport={{ once: true }}
+           transition={{ duration: 0.8, ease: "easeOut" }}
            className="mb-16 text-center w-full"
         >
             <h2 className="text-4xl md:text-7xl font-bold tracking-tighter text-matteBlack dark:text-white mb-4">

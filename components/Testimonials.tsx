@@ -40,9 +40,10 @@ const Testimonials: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             className="max-w-3xl"
           >
             <h2 className="text-[11vw] sm:text-6xl md:text-8xl font-black tracking-tighter text-matteBlack dark:text-white leading-[0.9] md:leading-[0.8] mb-6">

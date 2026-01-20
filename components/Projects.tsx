@@ -204,9 +204,10 @@ const Projects: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12">
           <motion.h2 
-             initial={{ opacity: 0, x: -20 }}
-             whileInView={{ opacity: 1, x: 0 }}
+             initial={{ opacity: 0, y: 30 }}
+             whileInView={{ opacity: 1, y: 0 }}
              viewport={{ once: true }}
+             transition={{ duration: 0.8, ease: "easeOut" }}
              className="text-5xl md:text-8xl font-black tracking-tighter text-matteBlack dark:text-white"
           >
             Work
